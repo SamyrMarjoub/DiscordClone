@@ -17,3 +17,44 @@
   font-family: 'Rubik Mono One', sans-serif;
 
 }
+.disconuvem{
+  background-image: url('../public/discordNuvem.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.gridcoluns{
+  grid-template-rows: auto;
+  display: grid;
+  grid-template-areas: 'grand grand ul1 ul2 ul3 ul4'
+}
+.grand{
+  grid-area: grand;
+}
+.ul1{
+  grid-area: ul1;
+}
+.ul2{
+  grid-area: ul2;
+}
+.ul3{
+  grid-area: ul3;
+}
+.ul4{
+  grid-area: ul4;
+}
+@media screen and (max-width:1050px) {
+  .gridcoluns{
+    grid-template-areas: 'grand grand ul1 ul2'
+    "grand grand ul3 ul4"
+  }
+}
+@media screen and (max-width:750px) {
+  .gridcoluns{
+    grid-template-areas: 'grand grand grand grand'
+    'ul1 ul1 ul2 ul2'
+    'ul3 ul3 ul4 ul4';
+    column-gap: 40px;
+    row-gap: 10px;
+  }
+}

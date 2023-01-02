@@ -9,7 +9,7 @@ import Footer from '../components/Footer'
 export default function Home() {
   return (
     <>
-      <div className='w-full discoNuvem bg-[#404eed] flex flex-col items-center justify-center'>
+      <div className='w-full bg-[#404eed] flex flex-col items-center justify-center'>
         <Header />
         <Main />
         <Herodivs />

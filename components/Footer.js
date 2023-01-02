@@ -6,10 +6,10 @@ import { FaDiscord, FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-
 
 export default function Footer() {
     return (
-        <footer className='bg-[#23272a]  flex justify-center h-[500px] w-full'>
-            <div className='w-[1200px] h-[65%] flex-col  mt-[50px] flex'>
-                <div className='flex w-full pb-[30px]  border-b border-b-[#5865f2]'>
-                    <div className='flex flex-col  items-start w-[30%]'>
+        <footer className='bg-[#23272a]  flex justify-center min-h-[500px] tablets:pb-[50px] w-full'>
+            <div className='w-[1200px]  queryH:w-[90%] h-[65%] flex-col  mt-[50px] flex'>
+                <div className='grid gridcoluns w-full pb-[30px]  border-b border-b-[#5865f2]'>
+                    <div className='flex grand flex-col items-start'>
                         <h3 className='text-[40px] max-w-[300px] leading-10 font-bold text-[#5865f2]'>IMAGINE A PLACE</h3>
                         <div className='flex w-full mt-5 items-center '>
                             <div className='mr-[10px]'>
@@ -21,7 +21,7 @@ export default function Footer() {
 
                             </div>
                         </div>
-                        <div className='flex w-[50%] justify-between mt-5'>
+                        <div className='flex mobile:w-[50%] smalltablets:w-[30%] w-[50%] justify-between mt-5'>
                             <FaTwitter className='text-white  text-[25px]' />
                             <FaInstagram className='text-white  text-[25px]' />
                             <FaFacebook className='text-white  text-[25px]' />
@@ -29,7 +29,7 @@ export default function Footer() {
                         </div>
 
                     </div>
-                    <div className='w-[15%]'>
+                    <div className='ul1 smalltablets:mt-16 tablets:mb-5'>
                         <ul className='text-white'>
                             <li className='text-[#5865f2] p-1'>Product</li>
                             <li className='p-1'>Download</li>
@@ -39,7 +39,7 @@ export default function Footer() {
 
                         </ul>
                     </div>
-                    <div className='w-[15%]'>
+                    <div className='ul2 smalltablets:mt-16 tablets:mb-5 '>
                         <ul className='text-white'>
                             <li className='text-[#5865f2] p-1'>Company</li>
                             <li className='p-1'>About</li>
@@ -49,7 +49,7 @@ export default function Footer() {
 
                         </ul>
                     </div>
-                    <div className='w-[15%]' >
+                    <div  className='ul3'>
                         <ul className='text-white'>
                             <li className='text-[#5865f2] p-1'>Resources</li>
                             <li className='p-1' >College</li>
@@ -63,7 +63,7 @@ export default function Footer() {
 
                         </ul>
                     </div>
-                    <div className='w-[15%]'>
+                    <div className='ul4'>
                         <ul className='text-white'>
                             <li className='text-[#5865f2] p-1'>Policies</li>
                             <li className='p-1'>Terms</li>
