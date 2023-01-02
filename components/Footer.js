@@ -1,5 +1,5 @@
 import React from 'react'
-import BrazilFlag from '../public/brazilicon.png'
+import BrazilFlag from '../public/brazilIcon.png'
 import Image from 'next/image'
 import { IoIosArrowDown } from 'react-icons/io'
 import { FaDiscord, FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
