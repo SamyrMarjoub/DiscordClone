@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaDiscord } from 'react-icons/fa'
-import {GiHamburgerMenu} from 'react-icons/gi'
-export default function header() {
+import { GiHamburgerMenu } from 'react-icons/gi'
+import { useRouter } from "next/router";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { provider } from '../firebase'
+const Header = () => {
+
+    const router = useRouter()
+    // const [user] = useAuthState(provider)
+    const [user, setUser] = useState(false)
     return (
         <div className='w-[1200px]  queryH:w-[90%]'>
             <div className='flex justify-between h-[70px] w-full'>
@@ -22,8 +29,13 @@ export default function header() {
                     </ul>
                 </div>
                 <div className='w-[10%] tablets:justify-end tablets:w-[50%] flex items-center  bg-red'>
-                    <button className='w-full tablets:w-[130px] h-[40px] queryH:text-[13px] rounded-3xl bg-white text-[14px] text-blackwhite '>Open Discord</button>
-                <GiHamburgerMenu className='text-white ml-3 hidden tablets:block text-[35px]' />
+                    <button className='w-full tablets:w-[130px]
+                     h-[40px] queryH:text-[13px]
+                      rounded-3xl bg-white
+                       text-[14px] text-blackwhite' onClick={()=> {!user ? router.push('/login')
+                        : ()=> router.push('/teste') }}>
+                        {!user ? "Login" : "Open Discord"}</button>
+                    <GiHamburgerMenu className='text-white ml-3 hidden tablets:block text-[35px]' />
                 </div>
 
             </div>
@@ -31,3 +43,5 @@ export default function header() {
 
     )
 }
+
+export default Header

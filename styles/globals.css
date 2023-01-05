@@ -43,6 +43,13 @@
 .ul4{
   grid-area: ul4;
 }
+.bg-img{
+  /* background-color: #5865F2; */
+  background-image: url('../public/teste3.png');
+  background-position: center 0%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 @media screen and (max-width:1050px) {
   .gridcoluns{
     grid-template-areas: 'grand grand ul1 ul2'
