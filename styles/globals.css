@@ -50,6 +50,17 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+.checked{
+  display: flex;
+  background-color: #5865F2;
+}
+.notChecked{
+  display: none;
+}
+.iconChecked{
+  color: white;
+  font-size: 18px;
+}
 @media screen and (max-width:1050px) {
   .gridcoluns{
     grid-template-areas: 'grand grand ul1 ul2'

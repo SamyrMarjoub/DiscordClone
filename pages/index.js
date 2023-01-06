@@ -10,6 +10,11 @@ export default function Home() {
   return (
     <>
       <div className='w-full bg-[#404eed] flex flex-col items-center justify-center'>
+        <Head>
+          <title>Discord</title>
+          <link rel="shortcut icon" href='discord-icon.svg' />
+
+        </Head>
         <Header />
         <Main />
         <Herodivs />
