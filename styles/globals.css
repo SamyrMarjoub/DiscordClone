@@ -10,68 +10,92 @@
 .fonte {
   font-family: 'Mulish', sans-serif;
 }
-.fontBold{
-  font-family: "ABC Ginto Nord","Noto Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+
+.fontBold {
+  font-family: "ABC Ginto Nord", "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-.font2{
+
+.font2 {
   font-family: 'Rubik Mono One', sans-serif;
 
 }
-.disconuvem{
+
+.disconuvem {
   background-image: url('../public/discordNuvem.svg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 }
-.gridcoluns{
+
+.gridcoluns {
   grid-template-rows: auto;
   display: grid;
   grid-template-areas: 'grand grand ul1 ul2 ul3 ul4'
 }
-.grand{
+
+.grand {
   grid-area: grand;
 }
-.ul1{
+
+.ul1 {
   grid-area: ul1;
 }
-.ul2{
+
+.ul2 {
   grid-area: ul2;
 }
-.ul3{
+
+.ul3 {
   grid-area: ul3;
 }
-.ul4{
+
+.ul4 {
   grid-area: ul4;
 }
-.bg-img{
+
+.bg-img {
   /* background-color: #5865F2; */
   background-image: url('../public/teste3.png');
   background-position: center 0%;
   background-repeat: no-repeat;
   background-size: cover;
 }
-.checked{
+
+.checked {
   display: flex;
   background-color: #5865F2;
 }
-.notChecked{
+
+.notChecked {
   display: none;
 }
-.iconChecked{
+
+.iconChecked {
   color: white;
   font-size: 18px;
 }
+
+.chk input:checked+span {
+  background-color: #5865F2;
+  background-image: url('../public/check-icon.svg');
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-position: center center;
+
+}
+
 @media screen and (max-width:1050px) {
-  .gridcoluns{
+  .gridcoluns {
     grid-template-areas: 'grand grand ul1 ul2'
-    "grand grand ul3 ul4"
+      "grand grand ul3 ul4"
   }
 }
+
 @media screen and (max-width:750px) {
-  .gridcoluns{
+  .gridcoluns {
     grid-template-areas: 'grand grand grand grand'
-    'ul1 ul1 ul2 ul2'
-    'ul3 ul3 ul4 ul4';
+      'ul1 ul1 ul2 ul2'
+      'ul3 ul3 ul4 ul4';
     column-gap: 40px;
     row-gap: 10px;
   }

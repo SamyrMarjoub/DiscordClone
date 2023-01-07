@@ -29,7 +29,7 @@ const Header = () => {
                     </ul>
                 </div>
                 <div className='w-[10%] tablets:justify-end tablets:w-[50%] flex items-center  bg-red'>
-                    <button className='w-full tablets:w-[130px]
+                    <button className='w-full tablets:hidden
                      h-[40px] queryH:text-[13px]
                       rounded-3xl bg-white
                        text-[14px] text-blackwhite' onClick={()=> {!user ? router.push('/login')
