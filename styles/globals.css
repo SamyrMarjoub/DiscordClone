@@ -83,6 +83,14 @@
   background-position: center center;
 
 }
+.spanLError{
+  color: #F38688;
+}
+.shadow{
+  -webkit-box-shadow: 2px 4px 14px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 2px 4px 14px 0px rgba(0,0,0,0.75);
+  box-shadow: 2px 4px 14px 0px rgba(0,0,0,0.75);
+}
 
 @media screen and (max-width:1050px) {
   .gridcoluns {

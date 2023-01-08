@@ -10,11 +10,11 @@ import {
     updateDoc,
     getDocs
 } from "@firebase/firestore";
-
+import {onAuthStateChanged} from 'firebase/auth'
 import { db, storage } from "../firebase";
 import { async } from '@firebase/util';
 import randomId from 'random-id';
-
+import {auth} from '../firebase'
 
 export default function Teste() {
 
@@ -23,6 +23,7 @@ export default function Teste() {
     const [data, setData] = useState([])
     const len = 30
     const pattern = 'Za0'
+    const [userLogado, setUserLogado] = useState({})
 
     async function getDocumento() {
         const colRef = collection(db, 'usuarios')
@@ -30,7 +31,17 @@ export default function Teste() {
         const docs = snapshots.docs.map(e => e.data())
         setData(docs)
     }
-
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const uid = user.uid;
+                console.log(uid)
+            } else {
+                // User is signed out
+                // ...
+            }
+        });
+    }, [])
     useEffect(() => getDocumento)
 
     async function submit(e) {
@@ -46,7 +57,7 @@ export default function Teste() {
         alert('Ok')
 
     }
-   
+
 
     return (
         <>
