@@ -8,7 +8,11 @@ const Header = () => {
 
     const router = useRouter()
     // const [user] = useAuthState(provider)
-    const [user, setUser] = useState(false)
+    const [user, setUser] = useState('')
+
+    useEffect(() => {
+        setUser(localStorage.getItem('logged'))
+    }, [])
     return (
         <div className='w-[1200px]  queryH:w-[90%]'>
             <div className='flex justify-between h-[70px] w-full'>
@@ -32,8 +36,10 @@ const Header = () => {
                     <button className='w-full tablets:hidden
                      h-[40px] queryH:text-[13px]
                       rounded-3xl bg-white
-                       text-[14px] text-blackwhite' onClick={()=> {!user ? router.push('/login')
-                        : ()=> router.push('/teste') }}>
+                       text-[14px] text-blackwhite' onClick={() => {
+                            !user ? router.push('/login')
+                                :  router.push('/teste')
+                        }}>
                         {!user ? "Login" : "Open Discord"}</button>
                     <GiHamburgerMenu className='text-white ml-3 hidden tablets:block text-[35px]' />
                 </div>
