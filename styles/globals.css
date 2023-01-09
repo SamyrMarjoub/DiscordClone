@@ -91,7 +91,9 @@
   -moz-box-shadow: 2px 4px 14px 0px rgba(0,0,0,0.75);
   box-shadow: 2px 4px 14px 0px rgba(0,0,0,0.75);
 }
-
+.gr path {
+  stroke: #96989D; 
+}
 @media screen and (max-width:1050px) {
   .gridcoluns {
     grid-template-areas: 'grand grand ul1 ul2'
