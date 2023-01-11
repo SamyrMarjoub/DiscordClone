@@ -30,7 +30,7 @@ function Login() {
 
     useEffect(() => {
         if (localStorage.getItem('logged')) {
-            router.replace('/teste')
+            router.replace('/main')
         }
     }, [router])
     function RegistradoComponent() {
@@ -40,7 +40,7 @@ function Login() {
                 .then((userCredential) => {
                     const user = userCredential.user;
                     localStorage.setItem('logged', true)
-                    router.push('/teste')
+                    router.push('/main')
 
                 })
                 .catch((error) => {
@@ -201,6 +201,7 @@ function Login() {
                     const errorMessage = error.message;
                     // ..
                 });
+                
             const docRef = await addDoc(collection(db, 'usuarios'), {
                 id: localStorage.getItem('Uid'),
                 username: username,

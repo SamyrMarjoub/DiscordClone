@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import icon1 from '../public/icon1.webp'
 import icon2 from '../public/icon2.webp'
@@ -11,9 +11,41 @@ import { BsHeadphones } from 'react-icons/bs'
 import { IoMdSettings, IoIosAdd } from 'react-icons/io'
 import laito from '../public/laito.webp'
 import { AiOutlineDownload } from 'react-icons/ai'
-function SideBar() {
+import { getAuth, signOut } from 'firebase/auth'
+import { auth } from '../firebase'
+import { useRouter } from 'next/router'
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { db } from '../firebase'
+
+function SideBar({ userData }) {
+    const router = useRouter()
+
+    function Logout() {
+        signOut(auth)
+        router.push('/login')
+        localStorage.removeItem('logged')
+        localStorage.removeItem('Uid')
+    }
+    // async function getUserData() {
+
+    //     const docRef = doc(db, "usuarios", userData.uid);
+    //     const docSnap = await getDoc(docRef);
+
+    //     if (docSnap.exists()) {
+    //         console.log("Document data:", docSnap.data());
+    //     } else {
+    //         // doc.data() will be undefined in this case
+    //         console.log("No such document!");
+    //     }
+    // }
+    useEffect(() => {
+        // console.log(userData.uid)
+        // getUserData()
+
+    }, [])
+
     return (
-        <div className='w-[310px] flex sticky left-0 top-0 h-full bg-[#2F3136]'>
+        <div className='w-[350px] flex sticky left-0 top-0 h-full bg-[#2F3136]'>
 
             {/* pequeno */}
 
@@ -46,17 +78,17 @@ function SideBar() {
                 {/* 3 icones verdes*/}
 
                 <div className='w-full flex-col flex items-center h-[auto] absolute bottom-0'>
-                    <div className='w-[70%] h-[50px] flex justify-center items-center rounded-full bg-[#36393F]'>
+                    <div className='w-[70%] h-[60px] flex justify-center items-center rounded-full bg-[#36393F]'>
                         <IoIosAdd className='text-[35px] text-[#3BA55D]' />
 
                     </div>
-                    <div className='w-[70%] mt-2 mb-2 h-[50px] flex justify-center items-center rounded-full bg-[#36393F]'>
+                    <div className='w-[70%] mt-2 mb-2 h-[60px] flex justify-center items-center rounded-full bg-[#36393F]'>
                         <FaCompass className='text-[23px] text-[#3BA55D]' />
 
                     </div>
                     <div className='border-t-2 border-t-[#36393F] w-[50%]'></div>
                     <div className='w-[70%] mt-2  mb-2
-                     h-[50px] flex justify-center items-center rounded-full bg-[#36393F]'>
+                     h-[60px] flex justify-center items-center rounded-full bg-[#36393F]'>
                         <AiOutlineDownload className='text-[25px] text-[#3BA55D]' />
 
                     </div>
@@ -107,28 +139,37 @@ function SideBar() {
 
                 </div>
 
-                <div className='w-[100%] flex justify-center items-center h-[5%] bg-[#292B2F]'>
-                    <div className='w-[93%] flex justify-between h-[80%] '>
-                        <div className='flex-1'>
-                            <div className='h-full flex items-center'>
-                                <Image alt='' className='rounded-full' src={laito} />
+                <div className='w-[100%] flex justify-center items-center h-[10%] '>
+                    <div className='w-full h-full flex justify-center items-end'>
+                        <div onClick={Logout} className='w-full h-[60px] flex cursor-pointer justify-center hover:bg-[#585c64] transition-all bg-[#292B2F] '>
+                            <div className='w-[93%] flex  justify-between h-[80%] '>
+                                <div className='flex-1'>
+                                    <div className='h-full flex items-center relative'>
+                                        <Image alt='' className='rounded-full' src={laito} />
+                                        <div className='w-[15px] right-4 rounded-full
+                                         h-[15px] absolute bottom-1 flex justify-center items-center bg-[#292B2F]'>
+                                            <div className='bg-[#3BA55D] rounded-full w-[70%] h-[70%]'></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div className='flex-[2] justify-center flex flex-col'>
+                                    <span className='text-white text-[14px] font-bold ml-[-3px]'>Laito</span>
+                                    <span className='text-[#96989D] text-[13px] mt-[-5px] ml-[-3px]'>#6327</span>
+                                </div>
+
+
+                                <div className='flex-[2] items-center flex justify-between'>
+                                    <MdKeyboardVoice className='text-[#96989D] text-[22px]' />
+                                    <BsHeadphones className='text-[#96989D] text-[22px]' />
+                                    <IoMdSettings className='text-[#96989D] text-[22px]' />
+                                </div>
 
                             </div>
-
-                        </div>
-                        <div className='flex-[2] justify-center flex flex-col'>
-                            <span className='text-white text-[14px] font-bold ml-[-3px]'>Laito</span>
-                            <span className='text-[#96989D] text-[13px] mt-[-5px] ml-[-3px]'>#6327</span>
-                        </div>
-
-
-                        <div className='flex-[2] items-center flex justify-between'>
-                            <MdKeyboardVoice className='text-[#96989D] text-[22px]' />
-                            <BsHeadphones className='text-[#96989D] text-[22px]' />
-                            <IoMdSettings className='text-[#96989D] text-[22px]' />
                         </div>
 
                     </div>
+
                 </div>
 
             </div>

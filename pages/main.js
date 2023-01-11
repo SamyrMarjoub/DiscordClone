@@ -16,8 +16,12 @@ import React, { useState, useEffect } from 'react'
 // import randomId from 'random-id';
 import SideBar from '../components/SideBar'
 import MainApp from '../components/MainApp'
-export default function Teste() {
+import { useRouter } from 'next/router'
+import { auth } from '../firebase'
+import { onAuthStateChanged } from 'firebase/auth'
 
+export default function Main() {
+    const router = useRouter()
     // async function getDocumento() {
     //     const colRef = collection(db, 'usuarios')
     //     const snapshots = await getDocs(colRef)
@@ -50,13 +54,37 @@ export default function Teste() {
     //     alert('Ok')
 
     // }
+    const [isReady, setIsReady] = useState(false)
+    const [userData, setUserData] = useState({})
 
+    useEffect(() => {
+
+        setTimeout(() => {
+            setIsReady(true)
+        }, 500)
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                // const uid = user;
+                // console.log(typeof(user))
+                setUserData(user)
+                console.log(userData)
+            } else {
+                router.replace('/login')
+            }
+        });
+
+    }, [router, userData])
 
     return (
-        <div className='w-full flex h-[100vh] bg-black'>
-            <SideBar />
-            <MainApp />
-        </div>
 
+        <>
+            {isReady ? <div className='w-full flex h-[100vh] bg-black'>
+                <SideBar userData={userData} />
+                <MainApp userData={userData} />
+            </div> : <></>}
+        </>
     )
 }

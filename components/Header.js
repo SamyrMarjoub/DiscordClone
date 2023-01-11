@@ -38,7 +38,7 @@ const Header = () => {
                       rounded-3xl bg-white
                        text-[14px] text-blackwhite' onClick={() => {
                             !user ? router.push('/login')
-                                :  router.push('/teste')
+                                :  router.push('/main')
                         }}>
                         {!user ? "Login" : "Open Discord"}</button>
                     <GiHamburgerMenu className='text-white ml-3 hidden tablets:block text-[35px]' />
