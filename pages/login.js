@@ -21,11 +21,14 @@ import {
 import { db, storage, auth } from "../firebase";
 import { useRouter } from 'next/router'
 import keyAccount from '../public/keyAccoutn.svg'
+import randomId from 'random-id'
+const len = 4
+const pattern = '301'
 
 function Login() {
     const router = useRouter()
     const [pagination, setPagination] = useState(0)
-    const [LoginRegisterInfo, setLoginRegisterInfo] = useState({})
+    const [LoginRegisterInfo, setLoginRegisterInfo] = useState('')
     const [LoginPass, setLoginPass] = useState('')
 
     useEffect(() => {
@@ -36,7 +39,7 @@ function Login() {
     function RegistradoComponent() {
 
         function AutoLogin() {
-            signInWithEmailAndPassword(auth, LoginRegisterInfo.email, LoginPass)
+            signInWithEmailAndPassword(auth, LoginRegisterInfo, LoginPass)
                 .then((userCredential) => {
                     const user = userCredential.user;
                     localStorage.setItem('logged', true)
@@ -190,27 +193,26 @@ function Login() {
             const dataFormatada = `${dia}/${mes}/${ano}`
 
             createUserWithEmailAndPassword(auth, email, senha)
-                .then((userCredential) => {
-                    // Signed in 
-                    const user = userCredential.user;
-                    localStorage.setItem('Uid', user.uid)
-                    setLoginRegisterInfo(user)
+                .then(async (userCredential) => {
+                    const docRef = await addDoc(collection(db, 'usuarios'), {
+                        id: userCredential.user.uid,
+                        username: username,
+                        datanascimento: dataFormatada,
+                        focus: focus,
+                        uid: randomId(len, pattern),
+                        timestamp: serverTimestamp()
+                    })
+                    await updateDoc(doc(db, "usuarios", docRef.id), {
+                    })
+
                 })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     // ..
                 });
-                
-            const docRef = await addDoc(collection(db, 'usuarios'), {
-                id: localStorage.getItem('Uid'),
-                username: username,
-                datanascimento: dataFormatada,
-                focus: focus,
-                timestamp: serverTimestamp()
-            })
-            await updateDoc(doc(db, "usuarios", docRef.id), {
-            })
+
+            setLoginRegisterInfo(email)
             setLoginPass(senha)
             // setGeneralData({
             //     datanascimento: dataFormatada,

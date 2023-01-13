@@ -70,7 +70,7 @@ export default function Main() {
                 // const uid = user;
                 // console.log(typeof(user))
                 setUserData(user)
-                console.log(userData)
+                // console.log(userData)
             } else {
                 router.replace('/login')
             }
@@ -82,8 +82,8 @@ export default function Main() {
 
         <>
             {isReady ? <div className='w-full flex h-[100vh] bg-black'>
-                <SideBar userData={userData} />
-                <MainApp userData={userData} />
+                <SideBar />
+                <MainApp />
             </div> : <></>}
         </>
     )

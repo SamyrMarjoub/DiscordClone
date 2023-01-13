@@ -6,9 +6,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap');
-body{
-  overflow: hidden;
-}
+
 .fonte {
   font-family: 'Mulish', sans-serif;
 }
@@ -19,7 +17,21 @@ body{
 
 .font2 {
   font-family: 'Rubik Mono One', sans-serif;
+}
 
+.cl {
+  transition: 0.2s all linear;
+
+}
+.white{
+  color: white;
+}
+
+.cl:hover {
+  color: white !important;
+  background-color: #3BA55D;
+  border-radius: 25px;
+  transition:  border 0.5s linear;
 }
 
 .disconuvem {
@@ -85,16 +97,37 @@ body{
   background-position: center center;
 
 }
-.spanLError{
+
+.spanLError {
   color: #F38688;
 }
-.shadow{
-  -webkit-box-shadow: 2px 4px 14px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 2px 4px 14px 0px rgba(0,0,0,0.75);
-  box-shadow: 2px 4px 14px 0px rgba(0,0,0,0.75);
+
+.shadow {
+  -webkit-box-shadow: 2px 4px 14px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 2px 4px 14px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 2px 4px 14px 0px rgba(0, 0, 0, 0.75);
 }
+
 .gr path {
-  stroke: #96989D; 
+  stroke: #96989D;
+}
+.animacaoBlack{
+  animation: ModalBlack 0.2s linear !important;
+}
+.grayy{
+  background-color: red;
+}
+.animacaoBlackSaida{
+  animation: ModalBlackSaida 0.2s linear !important;
+opacity: 0;
+}
+@keyframes ModalBlackSaida {
+  from{opacity: 0.8;}
+  to{opacity: 0;}
+}
+@keyframes ModalBlack {
+  from {opacity: 0;}
+  to {opacity: 0.8;}
 }
 @media screen and (max-width:1050px) {
   .gridcoluns {
