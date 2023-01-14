@@ -96,7 +96,7 @@ function Login() {
                     // Signed in 
                     const user = userCredential.user;
                     localStorage.setItem('logged', true)
-                    router.push('/teste')
+                    router.push('/main')
                     console.log(user.uid)
 
                 })

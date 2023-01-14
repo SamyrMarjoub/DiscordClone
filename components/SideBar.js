@@ -50,7 +50,6 @@ function SideBar() {
 
     function modalShow() {
         setModal(true)
-        console.log(modal)
     }
     useEffect(() => {
         getUserData()

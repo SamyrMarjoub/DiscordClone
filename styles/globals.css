@@ -121,6 +121,23 @@
   animation: ModalBlackSaida 0.2s linear !important;
 opacity: 0;
 }
+.animacaoMenu{
+  animation: menu 0.2s ease-in-out !important;
+}
+.animacaoMenuSaida{
+  animation: menuClose 0.2s ease-in-out !important;
+  transform: scale(0);
+}
+@keyframes menu {
+  from{transform: scale(0);}
+  to{transform: scale(1);}
+}
+
+@keyframes menuClose {
+  from{transform: scale(1);}
+  to{transform: scale(0);}
+}
+
 @keyframes ModalBlackSaida {
   from{opacity: 0.8;}
   to{opacity: 0;}
