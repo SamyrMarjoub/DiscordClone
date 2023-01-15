@@ -4,9 +4,14 @@ import { MdKeyboardArrowRight } from 'react-icons/md'
 import { MyContext } from './context'
 import Image from 'next/image'
 import newServer from '../public/NewServer.svg'
-import { auth, db } from '../firebase'
-import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { auth, db, storage } from '../firebase'
+import { collection, query, where, getDocs, doc, getDoc, setDoc, serverTimestamp, addDoc, updateDoc, FieldValue, arrayUnion } from "firebase/firestore";
 import { onAuthStateChanged } from 'firebase/auth'
+import randomId from 'random-id';
+import { getDownloadURL, uploadString, ref } from 'firebase/storage'
+const len = 10
+const pattern = 'A0f'
+
 function Modal() {
 
     const { modal, setModal } = useContext(MyContext);
@@ -87,7 +92,10 @@ function Modal() {
     function ComponentCreateServer() {
 
         const [imageUrl, setImageUrl] = useState('')
-        const [serverData, setServerData] = useState()
+        const [ServerName, setServerName] = useState('')
+        useEffect(() => {
+            setServerName(`Servidor de ${data?.username}`)
+        }, [])
 
         function fileImage(e) {
             e.preventDefault()
@@ -95,15 +103,38 @@ function Modal() {
             let file = e.target.files[0];
             reader.onloadend = () => {
                 setImageUrl(reader.result);
-                console.log(reader.result)
+                // console.log(reader.result)
             }
             reader.readAsDataURL(file)
 
         }
-        function CreateServer() {
-          
+        async function CreateServer() {
+            const id = randomId(len, pattern)
+            await setDoc(doc(db, "servidores", id), {
+                name: ServerName,
+                id: id,
+                serverTime: serverTimestamp()
 
-         }
+            });
+
+            const imgRef = ref(storage, `servidores/${id}/serverImage}`)
+
+            if (imageUrl) {
+                await uploadString(imgRef, imageUrl, "data_url").then(async () => {
+                    const downloadUrl = await getDownloadURL(imgRef)
+                    await updateDoc(doc(db, "servidores", id), {
+                        serverImage: downloadUrl
+                    })
+                })
+            }
+            console.log(data.id)
+            await updateDoc(doc(db, 'usuarios', data.id), {
+                servs: arrayUnion(id)
+            })
+
+            CloseModal()
+
+        }
         return (
             <>
                 <div className='w-[92%] relative mt-5 h-[95%] flex items-center flex-col'>
@@ -130,7 +161,7 @@ function Modal() {
 
                     <div className='w-full flex flex-col'>
                         <span className='text-[15px] block mt-10 text-[#4F5660] font-bold'>NOME DO SERVIDOR</span>
-                        <input defaultValue={`Servidor de ${data?.username}`} type={'text'} className='bg-[#E3E5E8] p-2 outline-none text-[#4F5660] font-bold mt-2 h-[45px]' />
+                        <input onChange={(e) => setServerName(e.target.value)} defaultValue={ServerName} type={'text'} className='bg-[#E3E5E8] p-2 outline-none text-[#4F5660] font-bold mt-2 h-[45px]' />
                         <span className='text-[#5E6772] mt-2 text-[12px] max-w-[90%]'>Ao criar um servidor, você concorda com
                             as <span className='text-[#0068E0] font-bold'>diretrizes da comunidade</span> do Discord</span>
                     </div>
@@ -143,7 +174,7 @@ function Modal() {
                             <span onClick={() => setLocal(1)} className='font-semibold text-[#000000] cursor-pointer'>Voltar</span>
                         </div>
                         <div className='flex-1 flex items-center justify-end'>
-                            <button onClick={CreateServer()} className='text-white bg-[#5865F2] rounded-sm font-semibold w-[110px] h-[42px]'>
+                            <button onClick={CreateServer} className='text-white bg-[#5865F2] rounded-sm font-semibold w-[110px] h-[42px]'>
                                 Criar
                             </button>
                         </div>

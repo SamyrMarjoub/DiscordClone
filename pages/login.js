@@ -6,17 +6,9 @@ import DiscordLogo2 from '../public/logo2.svg'
 import Head from 'next/head'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import {
-    collection,
     doc,
-    onSnapshot,
-    orderBy,
-    query,
-    addDoc,
     serverTimestamp,
-    updateDoc,
-    getDocs,
-    where,
-    getDoc
+    setDoc
 } from "@firebase/firestore";
 import { db, storage, auth } from "../firebase";
 import { useRouter } from 'next/router'
@@ -194,17 +186,27 @@ function Login() {
 
             createUserWithEmailAndPassword(auth, email, senha)
                 .then(async (userCredential) => {
-                    const docRef = await addDoc(collection(db, 'usuarios'), {
+                    // const docRef = await addDoc(collection(db, 'usuarios'), {
+                    //     id: userCredential.user.uid,
+                    //     username: username,
+                    //     datanascimento: dataFormatada,
+                    //     focus: focus,
+                    //     uid: randomId(len, pattern),
+                    //     servs: [],
+                    //     timestamp: serverTimestamp()
+                    // })
+                    // await updateDoc(doc(db, "usuarios", docRef.id), {
+                    // })
+                    await setDoc(doc(db, "usuarios", userCredential.user.uid), {
                         id: userCredential.user.uid,
                         username: username,
                         datanascimento: dataFormatada,
                         focus: focus,
                         uid: randomId(len, pattern),
+                        servs: [],
                         timestamp: serverTimestamp()
-                    })
-                    await updateDoc(doc(db, "usuarios", docRef.id), {
-                    })
 
+                    });
                 })
                 .catch((error) => {
                     const errorCode = error.code;

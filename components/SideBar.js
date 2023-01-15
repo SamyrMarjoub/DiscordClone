@@ -15,29 +15,51 @@ import { useRouter } from 'next/router'
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { MyContext } from './context'
 import Modal from './Modal'
+
 function SideBar() {
+
     const router = useRouter()
-    const [userDataS, setUserData] = useState({})
+    const [userDataS, setUserData] = useState([])
     const [userData2, setUserData2] = useState({})
+    const [userServs, setUserServs] = useState({})
+    const [generalData, setGeneralData] = useState({})
     const [modal, setModal] = useState(false)
+
     function Logout() {
         signOut(auth)
         router.push('/login')
         localStorage.removeItem('logged')
         localStorage.removeItem('Uid')
     }
+
     async function getUserData() {
         const citiesRef = collection(db, "usuarios");
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setUserData2(user)
                 // ...
-                const q = query(citiesRef, where("id", "==", user.uid));
-                const querySnapshot = await getDocs(q);
-                querySnapshot.forEach((doc) => {
-                    // console.log(doc.id, " => ", doc.data());
-                    setUserData(doc.data())
-                });
+                const docRef = doc(db, "usuarios", user.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    setGeneralData(docSnap.data())
+                    async function SideBarServers() {
+
+                        const q = query(collection(db,
+                            "servidores"), where("id", "in", docSnap.data().servs))
+                        const querySnapshot = await getDocs(q);
+                        querySnapshot.forEach((doc) => {
+                            setUserServs(doc.data())
+
+                        });
+
+                    }
+                    SideBarServers()
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+
             } else {
                 // User is signed out
                 // ...
@@ -47,10 +69,12 @@ function SideBar() {
 
     }
 
-
     function modalShow() {
         setModal(true)
     }
+
+
+
     useEffect(() => {
         getUserData()
 
@@ -65,33 +89,27 @@ function SideBar() {
                 <div className='w-[23%] items-center relative flex flex-col h-full bg-[#202225]'>
 
                     {/* top icon discord */}
-                    <div className='w-[65%]'>
+                    <div className='w-[65%] '>
                         <div className='p-1 mt-3 mb-2 flex justify-center 
-    items-center bg-[#36393F] w-[100%] h-[50px] rounded-full'>
+       items-center bg-[#36393F] w-[100%] h-[50px] rounded-full'>
                             <FaDiscord className='text-[#DCDDDE] text-[30px]' />
                         </div>
                     </div>
 
                     {/* 3 servidores esticos */}
-                    <div>
-                        <div className='p-1 pt-2 border-t border-t-[#36393F]'>
-                            <Image src={icon1}
-                                width={50} className='rounded-full' height={20} alt='' />
-                        </div>
+                    <div className=''>
+
                         <div className='p-1'>
                             <Image src={icon2}
-                                width={50} className='rounded-full' height={20} alt='' />
+                                width={55} className='rounded-full' height={20} alt='' />
                         </div>
-                        <div className='p-1'>
-                            <Image src={icon3}
-                                width={50} className='rounded-full' height={20} alt='' />
-                        </div>
+
                     </div>
 
                     {/* 3 icones verdes*/}
 
-                    <div className='w-full flex-col flex items-center h-[auto] absolute bottom-0'>
-                        <div onClick={() => { modalShow() }}  onMouseLeave={() => { const a = document.querySelector('.icon').classList.toggle('white') }}
+                    <div className='w-full flex-col flex items-center h-[auto] mt-2'>
+                        <div onClick={() => { modalShow() }} onMouseLeave={() => { const a = document.querySelector('.icon').classList.toggle('white') }}
                             onMouseEnter={() => { const a = document.querySelector('.icon').classList.toggle('white') }} className='w-[70%] h-[60px] flex cursor-pointer cl justify-center items-center rounded-full bg-[#36393F]'>
                             <IoIosAdd className='text-[45px] icon text-[#3BA55D]' />
 
@@ -161,9 +179,9 @@ function SideBar() {
                                 <div className='w-[93%] flex items-center  justify-between h-[80%] '>
                                     <div className='flex-1'>
                                         <div className='h-full flex items-center relative'>
-                                            {userData2.photoUrl ? (
+                                            {userData2?.photoUrl ? (
                                                 <>
-                                                    <Image alt='' className='rounded-full' src={userData2.photoUrl} />
+                                                    <Image alt='' className='rounded-full' src={userData2?.photoUrl} />
 
                                                     <div className='w-[15px] right-4 rounded-full
                              h-[15px] absolute bottom-1 flex justify-center items-center bg-[#292B2F]'>
@@ -179,8 +197,8 @@ function SideBar() {
 
                                     </div>
                                     <div className='flex-[2] justify-center flex flex-col'>
-                                        <span className='text-white text-[14px] font-bold ml-[-3px]'>{userDataS?.username}</span>
-                                        <span className='text-[#96989D] text-[13px] mt-[-5px] ml-[-3px]'>#{userDataS?.uid}</span>
+                                        <span className='text-white text-[14px] font-bold ml-[-3px]'>{generalData?.username}</span>
+                                        <span className='text-[#96989D] text-[13px] mt-[-5px] ml-[-3px]'>#{generalData?.uid}</span>
                                     </div>
 
 
@@ -214,5 +232,8 @@ function SideBar() {
 
     )
 }
+
+
+
 
 export default SideBar
