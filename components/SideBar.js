@@ -1,9 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState, createContext } from 'react'
 import Image from 'next/image'
-import icon1 from '../public/icon1.webp'
-import icon2 from '../public/icon2.webp'
-import icon3 from '../public/icon3.webp'
-import laito from '../public/laito.webp'
 import { FaDiscord, FaHashtag, FaCompass } from 'react-icons/fa'
 import { MdKeyboardVoice, MdVolumeUp, MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import { BsHeadphones } from 'react-icons/bs'
@@ -19,9 +16,8 @@ import Modal from './Modal'
 function SideBar() {
 
     const router = useRouter()
-    const [userDataS, setUserData] = useState([])
     const [userData2, setUserData2] = useState({})
-    const [userServs, setUserServs] = useState({})
+    const [userServs, setUserServs] = useState([])
     const [generalData, setGeneralData] = useState({})
     const [modal, setModal] = useState(false)
 
@@ -48,10 +44,16 @@ function SideBar() {
                         const q = query(collection(db,
                             "servidores"), where("id", "in", docSnap.data().servs))
                         const querySnapshot = await getDocs(q);
+                        const array = []
+                        const colorss = []
                         querySnapshot.forEach((doc) => {
-                            setUserServs(doc.data())
-
+                            array.push(doc.data())
+                            // const color = randomColor()
+                            // colorss.push(color.hexString())
                         });
+                        setUserServs(array)
+                        // setColors(colorss)
+
 
                     }
                     SideBarServers()
@@ -73,6 +75,10 @@ function SideBar() {
         setModal(true)
     }
 
+    useEffect(() => {
+        getUserData()
+
+    }, [modal])
 
 
     useEffect(() => {
@@ -89,20 +95,37 @@ function SideBar() {
                 <div className='w-[23%] items-center relative flex flex-col h-full bg-[#202225]'>
 
                     {/* top icon discord */}
-                    <div className='w-[65%] '>
+                    <div className='w-[70%]'>
                         <div className='p-1 mt-3 mb-2 flex justify-center 
        items-center bg-[#36393F] w-[100%] h-[50px] rounded-full'>
                             <FaDiscord className='text-[#DCDDDE] text-[30px]' />
                         </div>
                     </div>
-
+                    <div className='border-t-2 m-1 border-t-[#36393F] w-[50%]'></div>
                     {/* 3 servidores esticos */}
-                    <div className=''>
+                    <div className='w-full flex-col flex items-center justify-center'>
 
-                        <div className='p-1'>
-                            <Image src={icon2}
-                                width={55} className='rounded-full' height={20} alt='' />
-                        </div>
+                        {userServs ? userServs.map((e, index) =>
+                        (
+                            <div key={index} className={`w-full flex justify-center `}>
+                                {e.serverImage ?
+                                    <div className={`w-[70%] m-1 h-auto`}>
+                                        <img src={e.serverImage}
+                                            className='w-full h-[60px] rounded-full object-cover' alt='' />
+                                    </div>
+
+                                    : <div className={`w-[70%] rounded-[17px] flex 
+                                    justify-center m-1 items-center h-[55px] bg-[#5865F2]`}>
+                                        <span className='text-[20px] text-white'>
+                                            {e.name.split(" ").map(w => w[0]).join("").slice(0, 3)}
+                                        </span>
+                                    </div>}
+
+                            </div>
+                        )
+                        ) : <></>}
+
+
 
                     </div>
 
