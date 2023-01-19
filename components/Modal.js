@@ -113,6 +113,9 @@ function Modal() {
             await setDoc(doc(db, "servidores", id), {
                 name: ServerName,
                 id: id,
+                chatVoz:[{nome:'Geral', data:['']}],
+                chatTexto:[{nome:'geral', data:['']}],
+                qtdPessoas:1,
                 serverTime: serverTimestamp()
 
             });

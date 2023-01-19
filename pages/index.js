@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import Header from '../components/Header'
 import Main from '../components/Main'
 import Herodivs from '../components/Herodivs'
@@ -16,6 +15,7 @@ export default function Home() {
           <link rel="shortcut icon" href='discord-icon.svg' />
 
         </Head>
+
         <Header />
         <Main />
         <Herodivs />

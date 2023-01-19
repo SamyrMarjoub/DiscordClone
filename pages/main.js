@@ -56,7 +56,10 @@ export default function Main() {
     // }
     const [isReady, setIsReady] = useState(false)
     const [userData, setUserData] = useState({})
-
+    const [SingleServData, setSingleServData] = useState({})
+    function handleClick(value) {
+        console.log(value)
+    }
     useEffect(() => {
 
         setTimeout(() => {
@@ -82,7 +85,7 @@ export default function Main() {
 
         <>
             {isReady ? <div className='w-full flex h-[100vh] bg-black'>
-                <SideBar />
+                <SideBar teste={SingleServData} handleClick={handleClick} />
                 <MainApp />
             </div> : <></>}
         </>

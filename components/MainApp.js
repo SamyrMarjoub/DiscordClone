@@ -1,11 +1,61 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaHashtag } from 'react-icons/fa'
 import { IoIosNotifications, IoMdAddCircle } from 'react-icons/io'
 import { MdPeopleAlt } from 'react-icons/md'
 import { BiSearch } from 'react-icons/bi'
 import { AiFillGift, AiOutlineGif } from 'react-icons/ai'
 import { BsFileEarmarkEaselFill, BsFillEmojiDizzyFill } from 'react-icons/bs'
-function MainApp({userData}) {
+function MainApp() {
+
+  const [userData2, setUserData2] = useState({})
+  const [userServs, setUserServs] = useState([])
+  const [generalData, setGeneralData] = useState({})
+  const [modal, setModal] = useState(false)
+  const [SingleServData, setSingleServData] = useState({})
+
+  async function getUserData() {
+    const citiesRef = collection(db, "usuarios");
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUserData2(user)
+        // ...
+        const docRef = doc(db, "usuarios", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setGeneralData(docSnap.data())
+          async function SideBarServers() {
+
+            const q = query(collection(db,
+              "servidores"), where("id", "in", docSnap.data().servs))
+            const querySnapshot = await getDocs(q);
+            const array = []
+            querySnapshot.forEach((doc) => {
+              array.push(doc.data())
+
+            });
+            setUserServs(array)
+            // console.log(array)
+
+          }
+          SideBarServers()
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
+
+
+  }
+  useEffect(() => {
+
+  }, [])
+
   return (
     <div className='flex-1 h-full items-center flex flex-col text-white bg-[#36393F]'>
       <div className='w-full h-[53px] flex justify-center border-b border-b-[#18191C]'>
