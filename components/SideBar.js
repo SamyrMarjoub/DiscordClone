@@ -6,16 +6,14 @@ import { MdKeyboardVoice, MdVolumeUp, MdOutlineKeyboardArrowDown } from 'react-i
 import { BsHeadphones } from 'react-icons/bs'
 import { IoMdSettings, IoIosAdd } from 'react-icons/io'
 import { AiOutlineDownload } from 'react-icons/ai'
-import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth'
+import {signOut, onAuthStateChanged } from 'firebase/auth'
 import { auth, db } from '../firebase'
 import { useRouter } from 'next/router'
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { MyContext } from './context'
 import Modal from './Modal'
-// import {SingleServerData} from '../atoms/atoms'
-// import { useRecoilState } from 'recoil'
-
-function SideBar({teste, handleClick}) {
+import { setGlobalState, useGlobalState } from '../pasta'
+function SideBar() {
 
     const router = useRouter()
     const [userData2, setUserData2] = useState({})
@@ -23,6 +21,7 @@ function SideBar({teste, handleClick}) {
     const [generalData, setGeneralData] = useState({})
     const [modal, setModal] = useState(false)
     const [SingleServData, setSingleServData] = useState({})
+    const [canalSelected, setCanalSelected] = useState(true)
 
     function Logout() {
         signOut(auth)
@@ -70,16 +69,21 @@ function SideBar({teste, handleClick}) {
 
 
     }
+
     function OpenServer(e) {
         const id = e
         const data = userServs.find(item => item.id === id)
         setSingleServData(data)
-        console.log(SingleServData)
-        handleClick(SingleServData)
+        setGlobalState("defaultCurrency", data)
     }
 
     function modalShow() {
         setModal(true)
+    }
+
+    function selectedChannel(e) {
+        const id = e
+        const div = document.getElementById(id)
     }
 
     useEffect(() => {
@@ -145,7 +149,7 @@ function SideBar({teste, handleClick}) {
                         <div onClick={() => { modalShow() }} onMouseLeave={() => { const a = document.querySelector('.icon').classList.toggle('white') }}
                             onMouseEnter={() => { const a = document.querySelector('.icon').classList.toggle('white') }} className='w-[70%] h-[60px] flex cursor-pointer cl justify-center items-center rounded-full bg-[#36393F]'>
                             <IoIosAdd className='text-[45px] icon text-[#3BA55D]' />
-
+                            <h1 className='text-white text-[30px]'></h1>
                         </div>
                         <div onMouseLeave={() => { const a = document.querySelector('.compass').classList.toggle('white') }}
                             onMouseEnter={() => { const a = document.querySelector('.compass').classList.toggle('white') }} className='w-[70%] cursor-pointer mt-2 mb-2 h-[60px] cl flex justify-center items-center rounded-full bg-[#36393F]'>
@@ -160,9 +164,6 @@ function SideBar({teste, handleClick}) {
 
                         </div>
                     </div>
-
-
-
 
                 </div>
 
@@ -184,8 +185,10 @@ function SideBar({teste, handleClick}) {
                                 <span className='text-[#96989D] text-[13px] font-medium'>CANAIS DE TEXTO</span>
                                 {SingleServData.chatTexto?.map((e, index) => {
                                     return (
-                                        <div key={index} className='w-full cursor-pointer  flex  p-2 pl-0'>
-                                            <FaHashtag className='block text-[20px] mt-1 mr-2 text-[#96989D]' /> <span className='text-[#96989D]'>{e.nome}</span>
+                                        <div onClick={() => selectedChannel(e.id)} id={e.id} key={index} className={`w-full mt-1 cursor-pointer ${index === 0 ? "selectedChannel" : ""} flex  p-2 pl-0`}>
+                                            <FaHashtag onClick={(e) => e.stopPropagation()}
+                                             className={`block text-[20px] mt-1 mr-2 text-[#96989D]`} />
+                                            <span className={` ${index === 0 ? "text-white" : "text-[#96989D]"} `} onClick={(e) => e.stopPropagation()}>{e.nome}</span>
 
                                         </div>
                                     )
@@ -198,7 +201,7 @@ function SideBar({teste, handleClick}) {
                                 <span className='text-[#96989D] text-[13px] font-medium'>CANAIS DE VOZ</span>
                                 {SingleServData.chatVoz?.map((e, index) => {
                                     return (
-                                        <div key={index} className='w-full cursor-pointer  flex  p-2 pl-0'>
+                                        <div onClick={() => selectedChannel(e.id)} id={e.id} key={index} className='w-full cursor-pointer  flex  p-2 pl-0'>
                                             <FaHashtag className='block text-[20px] mt-1 mr-2 text-[#96989D]' /> <span className='text-[#96989D]'>{e.nome}</span>
 
                                         </div>
@@ -379,13 +382,14 @@ function SideBar({teste, handleClick}) {
                 <MyContext.Provider value={{ modal, setModal }}>
                     <Modal />
                 </MyContext.Provider>
-              
+
 
             ) : <></>}
 
         </>
 
     )
+
 }
 
 
