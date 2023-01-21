@@ -6,7 +6,7 @@ import { MdKeyboardVoice, MdVolumeUp, MdOutlineKeyboardArrowDown } from 'react-i
 import { BsHeadphones } from 'react-icons/bs'
 import { IoMdSettings, IoIosAdd } from 'react-icons/io'
 import { AiOutlineDownload } from 'react-icons/ai'
-import {signOut, onAuthStateChanged } from 'firebase/auth'
+import { signOut, onAuthStateChanged } from 'firebase/auth'
 import { auth, db } from '../firebase'
 import { useRouter } from 'next/router'
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
@@ -43,16 +43,20 @@ function SideBar() {
                     setGeneralData(docSnap.data())
                     async function SideBarServers() {
 
-                        const q = query(collection(db,
-                            "servidores"), where("id", "in", docSnap.data().servs))
-                        const querySnapshot = await getDocs(q);
-                        const array = []
-                        querySnapshot.forEach((doc) => {
-                            array.push(doc.data())
+                        if (docSnap.data().servs.length !== 0) {
+                            const q = query(collection(db,
+                                "servidores"), where("id", "in", docSnap.data().servs))
+                            const querySnapshot = await getDocs(q);
+                            const array = []
+                            querySnapshot.forEach((doc) => {
+                                array.push(doc.data())
 
-                        });
-                        setUserServs(array)
-                        // console.log(array)
+                            });
+                            setUserServs(array)
+                        }else{
+                            return
+                        }
+
 
                     }
                     SideBarServers()
@@ -187,7 +191,7 @@ function SideBar() {
                                     return (
                                         <div onClick={() => selectedChannel(e.id)} id={e.id} key={index} className={`w-full mt-1 cursor-pointer ${index === 0 ? "selectedChannel" : ""} flex  p-2 pl-0`}>
                                             <FaHashtag onClick={(e) => e.stopPropagation()}
-                                             className={`block text-[20px] mt-1 mr-2 text-[#96989D]`} />
+                                                className={`block text-[20px] mt-1 mr-2 text-[#96989D]`} />
                                             <span className={` ${index === 0 ? "text-white" : "text-[#96989D]"} `} onClick={(e) => e.stopPropagation()}>{e.nome}</span>
 
                                         </div>

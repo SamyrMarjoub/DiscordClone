@@ -176,27 +176,19 @@ function Login() {
             '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'])
         const [dateMes, setDateMes] = useState(['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'])
         const [userData, setUserData] = useState({})
+
         useEffect(() => {
             console.log(userData);
         }, [userData]);
-        async function addUser(e) {
+
+         function addUser(e) {
 
             e.preventDefault()
             const dataFormatada = `${dia}/${mes}/${ano}`
 
             createUserWithEmailAndPassword(auth, email, senha)
                 .then(async (userCredential) => {
-                    // const docRef = await addDoc(collection(db, 'usuarios'), {
-                    //     id: userCredential.user.uid,
-                    //     username: username,
-                    //     datanascimento: dataFormatada,
-                    //     focus: focus,
-                    //     uid: randomId(len, pattern),
-                    //     servs: [],
-                    //     timestamp: serverTimestamp()
-                    // })
-                    // await updateDoc(doc(db, "usuarios", docRef.id), {
-                    // })
+                  
                     await setDoc(doc(db, "usuarios", userCredential.user.uid), {
                         id: userCredential.user.uid,
                         username: username,
