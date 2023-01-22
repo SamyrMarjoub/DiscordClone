@@ -1,32 +1,44 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { FaHashtag } from 'react-icons/fa'
+import { FaDiscord, FaHashtag } from 'react-icons/fa'
 import { IoIosNotifications, IoMdAddCircle } from 'react-icons/io'
 import { MdPeopleAlt } from 'react-icons/md'
 import { BiSearch } from 'react-icons/bi'
 import { AiFillGift, AiOutlineGif } from 'react-icons/ai'
-import { BsFileEarmarkEaselFill, BsFillEmojiDizzyFill } from 'react-icons/bs'
+import { BsFileEarmarkEaselFill, BsFillEmojiDizzyFill, BsThreeDots } from 'react-icons/bs'
 import { useGlobalState } from '../pasta'
 import noChat from '../public/noChat.svg'
 import randomId from 'random-id'
 import { auth, db } from '../firebase'
 import { onAuthStateChanged } from 'firebase/auth'
-import { collection, query, setDoc, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { collection, query, serverTimestamp, setDoc, deleteDoc, where, getDocs, doc, getDoc, orderBy } from "firebase/firestore";
+import daysjs from 'dayjs'
+import locale from 'dayjs/locale/pt-br'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
 const len = 10
 const pattern = 'A04c'
 
 
 function MainApp() {
   const defaultCurrency = useGlobalState("defaultCurrency")
-  // const [userData, setUserData] = useState({})
+  daysjs.extend(relativeTime)
+  daysjs.locale(locale)
 
   function YesData() {
 
     const [msg, setMsg] = useState('')
+    const [msgs, setMsgs] = useState([])
+    const [qtdmsg, setQtdmsg] = useState(0)
+    const [twomsg, settwomsg] = useState([])
+
 
     function submitMessage(e) {
       if (e.key === 'Enter') {
         e.preventDefault()
+        SendMsg()
+        setMsg('')
+
       }
 
     }
@@ -38,35 +50,61 @@ function MainApp() {
           // ...
           const docRef = doc(db, "usuarios", user.uid);
           const docSnap = await getDoc(docRef);
-  
+
           if (docSnap.exists()) {
-            // setGeneralData(docSnap.data())
-            // await setDoc(doc(db, "servidores", id), {
-            //   userName: docSnap.data().name,
-            //   id: id,
-            //   chatVoz: [{ nome: 'Geral', data: [{}], id: randomId(len, pattern) }],
-            //   chatTexto: [{ nome: 'geral', data: [{}], id: randomId(len, pattern) }],
-            //   qtdPessoas: 1,
-            //   serverTime: serverTimestamp()
-  
-            // });
-            console.log(docSnap.data().username)
-            console.log(user.email)
+
+            await setDoc(doc(db, "mensagens", id), {
+              id: id,
+              uid: docSnap.data().id,
+              serverId: defaultCurrency[0].id,
+              username: docSnap.data().username,
+              photoUrl: "",
+              msg: msg,
+              serverTime: serverTimestamp()
+
+            });
+            setMsgs([])
+            getMsgs()
+            // console.log(docSnap.data().username)
+            // console.log(user.email)
           } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
           }
-  
+
         } else {
           // User is signed out
           // ...
         }
       });
-  
-  
+
+
     }
+    async function getMsgs() {
+      // const querySnapshot = await getDocs(collection(db, "mensagens"));
+      const citiesRef = collection(db, "mensagens")
+      const q = query(citiesRef, orderBy("serverTime", "asc"))
+      // querySnapshot.forEach((doc) => {
+      //   setMsgs(msgs => [...msgs, doc.data()]);
+      //   settwomsg(msgs => [...msgs, doc.data()]);
+      // });
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setMsgs(msgs => [...msgs, doc.data()]);
+        settwomsg(msgs => [...msgs, doc.data()]);
+
+      });
+    }
+    async function deleteMsg(e) {
+
+      await deleteDoc(doc(db, "mensagens", e));
+      setMsgs([])
+      getMsgs()
+    }
+
     useEffect(() => {
-      SendMsg()
+      getMsgs()
+      setQtdmsg(msgs.length)
     }, [])
 
     return (
@@ -162,14 +200,54 @@ function MainApp() {
         </div>
 
         <div className='w-[98%] flex flex-col justify-between flex-1'>
-
-          <div className='flex-1 flex flex-col items-start justify-end'>
-            <div className='w-[80px] h-[80px] flex justify-center items-center bg-[#4F545C] rounded-full'>
-              <FaHashtag className='text-[45px] text-white' />
+          {twomsg.length === 0 ? <>
+            <div className='flex-1 flex flex-col items-start justify-end'>
+              <div className='w-[80px] h-[80px] flex justify-center items-center bg-[#4F545C] rounded-full'>
+                <FaHashtag className='text-[45px] text-white' />
+              </div>
+              <span className='text-[35px] font-bold'>Bem vindo(a) a #{defaultCurrency[0].chatTexto[0].nome}!</span>
+              <span className='text-[#A3A6AA] text-[18px]'>Este é o começo do canal #{defaultCurrency[0].chatTexto[0].nome}.</span>
             </div>
-            <span className='text-[35px] font-bold'>Bem vindo(a) a #{defaultCurrency[0].chatTexto[0].nome}!</span>
-            <span className='text-[#A3A6AA] text-[18px]'>Este é o começo do canal #{defaultCurrency[0].chatTexto[0].nome}.</span>
-          </div>
+
+          </> : <>
+            <div className='w-full flex flex-col justify-end  h-full'>
+              <div className='w-full flex border-t pt-[25px] border-t-[#4F545C99]'>
+
+                <div className='flex-1 flex justify-center'>
+                  <div className='w-[98.5%] flex h-full'>
+                    <div className='w-full'>
+                      {msgs.map((e, index) => (
+                        <div className='flex w-full mt-5 relative flex-col' key={index}>
+                          <div className='flex'>
+                            <div className='w-[50px] bg-red-500 h-[50px] flex justify-center items-center rounded-full'>
+                              <FaDiscord className='text-[30px]' />
+                            </div>
+                            <span className='font-bold ml-3 mr-2'>{e.username}</span>
+                            <span className='text-[13px] mt-[2.8px] text-[#B9BBBE]'>{daysjs().from(daysjs(e.serverTime.toDate()))}</span>
+                          </div>
+                          <div className='bg-red-500 flex w-full'>
+                            <div className='w-[300px]'>
+                              <p className='ml-[60px] absolute mt-[-20px]'>
+                                {e.msg}
+                              </p>
+                            </div>
+                          </div>
+                          <div id={e.id} onClick={() => deleteMsg(e.id)} className='absolute right-0 cursor-pointer'> <BsThreeDots /> </div>
+
+                        </div>
+                      ))}
+
+                    </div>
+
+
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </>}
+
 
           <div className='min-h-[90px]  flex justify-center items-center w-full'>
 

@@ -31,7 +31,6 @@ function SideBar() {
     }
 
     async function getUserData() {
-        const citiesRef = collection(db, "usuarios");
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setUserData2(user)
@@ -53,7 +52,7 @@ function SideBar() {
 
                             });
                             setUserServs(array)
-                        }else{
+                        } else {
                             return
                         }
 
