@@ -28,6 +28,7 @@ function SideBar() {
         router.push('/login')
         localStorage.removeItem('logged')
         localStorage.removeItem('Uid')
+        window.location.reload()
     }
 
     async function getUserData() {
@@ -99,8 +100,6 @@ function SideBar() {
         getUserData()
 
     }, [])
-
-
 
 
     return (
@@ -231,7 +230,7 @@ function SideBar() {
                                                         </div>
                                                     </>
 
-                                                ) : <div className='w-[40px] flex justify-center items-center h-[40px] bg-red-500 rounded-full'>
+                                                ) : <div style={{ backgroundColor: generalData?.bgIconColor }} className={`w-[40px] flex justify-center items-center h-[40px] rounded-full`}>
                                                     <FaDiscord className='text-[25px] text-white' />
                                                 </div>}
 
@@ -347,7 +346,7 @@ function SideBar() {
                                                         </div>
                                                     </>
 
-                                                ) : <div className='w-[40px] flex justify-center items-center h-[40px] bg-red-500 rounded-full'>
+                                                ) : <div style={{ backgroundColor: generalData?.bgIconColor }} className={`w-[40px] flex justify-center items-center h-[40px] rounded-full`}>
                                                     <FaDiscord className='text-[25px] text-white' />
                                                 </div>}
 

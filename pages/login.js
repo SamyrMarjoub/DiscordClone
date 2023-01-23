@@ -16,6 +16,8 @@ import keyAccount from '../public/keyAccoutn.svg'
 import randomId from 'random-id'
 const len = 4
 const pattern = '301'
+import randomColor from 'randomcolor'
+var color = randomColor();
 
 function Login() {
     const router = useRouter()
@@ -28,6 +30,8 @@ function Login() {
             router.replace('/main')
         }
     }, [router])
+
+   
     function RegistradoComponent() {
 
         function AutoLogin() {
@@ -180,6 +184,7 @@ function Login() {
         useEffect(() => {
             console.log(userData);
         }, [userData]);
+        
 
          function addUser(e) {
 
@@ -196,6 +201,7 @@ function Login() {
                         focus: focus,
                         uid: randomId(len, pattern),
                         servs: [],
+                        bgIconColor:color,
                         timestamp: serverTimestamp()
 
                     });

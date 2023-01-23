@@ -11,7 +11,7 @@ import noChat from '../public/noChat.svg'
 import randomId from 'random-id'
 import { auth, db } from '../firebase'
 import { onAuthStateChanged } from 'firebase/auth'
-import { collection, query, serverTimestamp, setDoc, deleteDoc, where, getDocs, doc, getDoc, orderBy } from "firebase/firestore";
+import { collection, query, serverTimestamp, setDoc, deleteDoc, where, getDocs, doc, getDoc, orderBy, onSnapshot } from "firebase/firestore";
 import daysjs from 'dayjs'
 import locale from 'dayjs/locale/pt-br'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -29,8 +29,9 @@ function MainApp() {
 
     const [msg, setMsg] = useState('')
     const [msgs, setMsgs] = useState([])
-    const [qtdmsg, setQtdmsg] = useState(0)
+    const [generalData, setGeneralData] = useState([])
     const [twomsg, settwomsg] = useState([])
+
 
 
     function submitMessage(e) {
@@ -42,7 +43,34 @@ function MainApp() {
       }
 
     }
+    function getUserData() {
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          // ...
+          const querySnapshot = await getDocs(collection(db, "usuarios"));
+          querySnapshot.forEach((doc) => {
+            setGeneralData([...generalData, doc.data()]);
 
+          });
+
+
+          // const docRef = doc(db, "usuarios", user.uid);
+          // const docSnap = await getDoc(docRef);
+
+          // if (docSnap.exists()) {
+          //   setGeneralData(docSnap.data())
+          //   console.log(docSnap.data().bgIconColor)
+          // } else {
+          //   // doc.data() will be undefined in this case
+          //   console.log("No such document!");
+          // }
+
+        } else {
+          // User is signed out
+          // ...
+        }
+      });
+    }
     function SendMsg() {
       const id = randomId(len, pattern)
       onAuthStateChanged(auth, async (user) => {
@@ -60,15 +88,14 @@ function MainApp() {
               username: docSnap.data().username,
               photoUrl: "",
               msg: msg,
+              bgIconColor: docSnap.data().bgIconColor,
               serverTime: serverTimestamp()
 
             });
             setMsgs([])
-            getMsgs()
-            // console.log(docSnap.data().username)
-            // console.log(user.email)
+            // getMsgs()
+
           } else {
-            // doc.data() will be undefined in this case
             console.log("No such document!");
           }
 
@@ -81,20 +108,27 @@ function MainApp() {
 
     }
     async function getMsgs() {
-      // const querySnapshot = await getDocs(collection(db, "mensagens"));
-      const citiesRef = collection(db, "mensagens")
-      const q = query(citiesRef, orderBy("serverTime", "asc"))
+
+      // const q = query(collection(db, "mensagens"), where("serverId", "==", defaultCurrency[0].id), orderBy("serverTime", "asc"));
+      // const querySnapshot = await getDocs(q);
+
       // querySnapshot.forEach((doc) => {
       //   setMsgs(msgs => [...msgs, doc.data()]);
       //   settwomsg(msgs => [...msgs, doc.data()]);
       // });
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setMsgs(msgs => [...msgs, doc.data()]);
-        settwomsg(msgs => [...msgs, doc.data()]);
 
+      const q = query(collection(db, "mensagens"), where("serverId", "==", defaultCurrency[0].id), orderBy("serverTime", "asc"));
+      onSnapshot(q, (querySnapshot) => {
+        let data = [];
+        querySnapshot.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setMsgs(data);
+        settwomsg(data);
       });
     }
+
+
     async function deleteMsg(e) {
 
       await deleteDoc(doc(db, "mensagens", e));
@@ -104,8 +138,11 @@ function MainApp() {
 
     useEffect(() => {
       getMsgs()
-      setQtdmsg(msgs.length)
+      // getUserData()
     }, [])
+    useEffect(() => {
+      console.log(msgs)
+    }, [msgs])
 
     return (
       <>
@@ -219,11 +256,11 @@ function MainApp() {
                       {msgs.map((e, index) => (
                         <div className='flex w-full mt-5 relative flex-col' key={index}>
                           <div className='flex'>
-                            <div className='w-[50px] bg-red-500 h-[50px] flex justify-center items-center rounded-full'>
+                            <div style={{ backgroundColor: e?.bgIconColor }} className='w-[50px] h-[50px] flex justify-center items-center rounded-full'>
                               <FaDiscord className='text-[30px]' />
                             </div>
                             <span className='font-bold ml-3 mr-2'>{e.username}</span>
-                            <span className='text-[13px] mt-[2.8px] text-[#B9BBBE]'>{daysjs().from(daysjs(e.serverTime.toDate()))}</span>
+                            <span className='text-[13px] mt-[2.8px] text-[#B9BBBE]'>{daysjs().from(daysjs(e.serverTime?.toDate()))}</span>
                           </div>
                           <div className='bg-red-500 flex w-full'>
                             <div className='w-[300px]'>

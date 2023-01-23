@@ -83,7 +83,7 @@ function Modal() {
                 </div>
                 <div className='bg-[#F2F3F5] text-center mt-10 w-full items-center flex flex-col justify-evenly h-[110px]'>
                     <span className=' text-[20px]  font-medium'>Já tem um convite?</span>
-                    <button className='w-[90%] h-[40px]  rounded-sm bg-[#6A7480] text-white'>Entrar em um servidor</button>
+                    <button onClick={() => setLocal(3)} className='w-[90%] h-[40px]  rounded-sm bg-[#6A7480] text-white'>Entrar em um servidor</button>
                 </div>
             </>
         )
@@ -138,6 +138,7 @@ function Modal() {
             CloseModal()
 
         }
+
         return (
             <>
                 <div className='w-[92%] relative mt-5 h-[95%] flex items-center flex-col'>
@@ -189,6 +190,64 @@ function Modal() {
         )
     }
 
+    function EntrarServidor() {
+
+        const [convite, setConvite] = useState("")
+
+        async function JoinServer(e) {
+            e.preventDefault()
+            const q = query(collection(db, "servidores"), where("id", "==", convite));
+            const querySnapshot = await getDocs(q);
+            if (querySnapshot.empty) {
+                alert('Servidor não existe')
+            } else {
+                querySnapshot.forEach(async (dataA) => {
+                    // console.log(doc.id, " => ", doc.data());
+                    await updateDoc(doc(db, 'usuarios', data.id), {
+                        servs: arrayUnion(dataA.id)
+                    })
+
+                });
+            }
+
+
+
+
+
+        }
+
+        return (
+            <div className='w-full flex flex-col justify-center items-center'>
+                <div className='w-[92%] relative mt-5 h-[95%] flex items-center flex-col'>
+                    <span className='text-[25px] font-bold'>Entrar em um servidor</span>
+                    <p className='text-center mt-2 text-[15px] text-[#4F5660]'>Insira um convite abaixo para entrar em um servidor existente</p>
+                    <div className='w-full'>
+                        <span className='text-[#4F5660] text-[14px] mt-5 block font-bold'>LINK DE CONVITE</span>
+
+                        <input required value={convite} onChange={(e) => setConvite(e.target.value)} placeholder={`hTKzmak`} className='w-full mt-2 text-[#4F5660] outline-none placeholder:text-[#4F5660] p-2 bg-[#DCDDDE] h-[40px]' type={'text'} />
+
+                        <span className='text-[#4F5660] text-[14px] mt-3 block font-bold'>CONVITES DEVEM SER MAIS OU MENOS ASSIM</span>
+                        <span>hTKzmak</span>
+                    </div>
+
+                </div>
+                <div className='w-full h-[70px] flex justify-center mt-5 bg-[#F2F3F5]'>
+                    <div className='flex w-[92%] justify-center'>
+                        <div className='flex-1 flex items-center'>
+                            <span onClick={() => setLocal(1)} className='font-semibold text-[#000000] cursor-pointer'>Voltar</span>
+                        </div>
+                        <div className='flex-1 flex items-center justify-end'>
+                            <button onClick={JoinServer} className='text-white bg-[#5865F2] rounded-sm font-semibold w-[180px] h-[42px]'>
+                                Entrar no servidor
+                            </button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        )
+    }
     return (
         <>
             {!modal ? <></> : (
@@ -197,7 +256,7 @@ function Modal() {
                         <div id='menu' className='w-[490px]  flex-col flex justify-center items-center rounded-md bg-white'>
                             {local === 1 ?
                                 <ComponentIndex />
-                                : <ComponentCreateServer />}
+                                : local == 2 ? <ComponentCreateServer /> : <EntrarServidor />}
                         </div>
 
                     </div>
