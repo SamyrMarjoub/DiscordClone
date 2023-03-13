@@ -128,39 +128,40 @@ function MainApp() {
 
     async function deleteMsg(id) {
 
-      await deleteDoc(doc(db, "mensagens", id));
-      setMsgs([])
-      getMsgs()
-    }
+      //   await deleteDoc(doc(db, "mensagens", id));
+      //   setMsgs([])
+      //   getMsgs()
+      // }
 
+
+    }
     function readFile(e) {
-      console.log(file)
-      let reader = new FileReader();
-      let filez = e?.target?.files[0];
-      reader.onloadend = () => {
-        setFile(reader.result);
-        console.log(reader.result)
-      }
-      reader.readAsDataURL(filez)
-      uploadString()
+      // console.log(file)
+      // let reader = new FileReader();
+      // let filez = e?.target?.files[0];
+      // reader.onloadend = () => {
+      //   setFile(reader.result);
+      //   console.log(reader.result)
+      // }
+      // reader.readAsDataURL(filez)
+      // uploadString()
     }
-
     async function uploadString() {
-      const id = randomId(len, pattern)
+      // const id = randomId(len, pattern)
 
-      const imgRef = ref(storage, `mensagens/${id}/msg`)
+      // const imgRef = ref(storage, `mensagens/${id}/msg`)
 
-      await uploadString(imgRef, file, "data_url").then(async () => {
-        const downloadUrl = await getDownloadURL(imgRef)
-        await updateDoc(doc(db, "mensagens", id), {
-          image: downloadUrl
-        })
-      })
+      // await uploadString(imgRef, file, "data_url").then(async () => {
+      //   const downloadUrl = await getDownloadURL(imgRef)
+      //   await updateDoc(doc(db, "mensagens", id), {
+      //     image: downloadUrl
+      //   })
+      // })
 
-      console.log(data.id)
-      await updateDoc(doc(db, 'usuarios', data.id), {
-        servs: arrayUnion(id)
-      })
+      // console.log(data.id)
+      // await updateDoc(doc(db, 'usuarios', data.id), {
+      //   servs: arrayUnion(id)
+      // })
 
     }
 
