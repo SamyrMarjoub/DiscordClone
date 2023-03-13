@@ -104,7 +104,7 @@ function SideBar() {
 
     return (
         <>
-            <div className='w-[350px] flex sticky left-0 top-0 h-full bg-[#2F3136]'>
+            <div className='w-[350px] tablets:w-[300px] flex sticky left-0 top-0 h-full bg-[#2F3136]'>
 
                 {/* pequeno */}
 
@@ -174,7 +174,7 @@ function SideBar() {
                 <div className='w-[77%] items-center h-full flex flex-col justify-between'>
 
                     {SingleServData.name ? <>
-                        <div className='w-[100%] justify-center flex h-[5%] border-b border-b-[#18191C]'>
+                        <div className='w-[100%] justify-center flex h-[59px] border-b border-b-[#18191C]'>
                             <div className='w-[85%] justify-between items-center flex'>
                                 <span className='block text-white font-bold'>{SingleServData.name}</span>
                                 <MdOutlineKeyboardArrowDown className='text-white text-[20px]' />
@@ -214,12 +214,12 @@ function SideBar() {
 
                         </div>
 
-                        <div className='w-[100%] flex justify-center items-center h-[10%] '>
+                        <div className='w-[100%] flex justify-center  items-center h-[auto] '>
                             <div className='w-full h-full flex justify-center items-end'>
                                 <div onClick={Logout} className='w-full h-[60px] items-center flex cursor-pointer justify-center hover:bg-[#585c64] transition-all bg-[#292B2F] '>
                                     <div className='w-[93%] flex items-center  justify-between h-[80%] '>
                                         <div className='flex-1'>
-                                            <div className='h-full flex items-center relative'>
+                                            <div className='h-full flex tablets:mr-[10px] items-center relative'>
                                                 {userData2?.photoUrl ? (
                                                     <>
                                                         <Image alt='' className='rounded-full' src={userData2?.photoUrl} />
@@ -331,7 +331,7 @@ function SideBar() {
 
                         </div>
                         <div className='w-full h-[60px] bg-[#292B2F]'>
-                            <div className='w-[95%] h-full flex justify-center items-end'>
+                            <div className='w-[95%]  h-full flex justify-center items-end'>
                                 <div onClick={Logout} className='w-full h-[100%] items-center flex cursor-pointer justify-center hover:bg-[#585c64] transition-all bg-[#292B2F] '>
                                     <div className='w-[93%] flex items-center  justify-between h-[80%] '>
                                         <div className='flex-1'>
