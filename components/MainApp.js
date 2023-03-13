@@ -128,13 +128,13 @@ function MainApp() {
 
     async function deleteMsg(id) {
 
-      //   await deleteDoc(doc(db, "mensagens", id));
-      //   setMsgs([])
-      //   getMsgs()
-      // }
+        await deleteDoc(doc(db, "mensagens", id));
+        setMsgs([])
+        getMsgs()
+      }
+    
 
-
-    }
+    
     function readFile(e) {
       // console.log(file)
       // let reader = new FileReader();
@@ -177,7 +177,6 @@ function MainApp() {
 
     return (
       <>
-
 
         <div className='w-full h-[100vh] flex flex-col items-center'>
 
