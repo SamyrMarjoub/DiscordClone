@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/next-js": "^2.1.4",
+    "@chakra-ui/react": "^2.7.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@next/font": "13.1.1",
     "@reduxjs/toolkit": "^1.9.1",
     "@types/node": "18.11.18",
@@ -19,6 +23,7 @@
     "eslint-config-next": "13.1.1",
     "firebase": "^9.15.0",
     "firebase-admin": "^11.4.1",
+    "framer-motion": "^10.12.17",
     "next": "13.1.1",
     "random-id": "^1.0.4",
     "randomcolor": "^0.6.2",

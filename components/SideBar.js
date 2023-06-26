@@ -13,6 +13,7 @@ import { collection, query, where, getDocs, doc, getDoc } from "firebase/firesto
 import { MyContext } from './context'
 import Modal from './Modal'
 import { setGlobalState, useGlobalState } from '../pasta'
+
 function SideBar() {
 
     const router = useRouter()
@@ -104,11 +105,11 @@ function SideBar() {
 
     return (
         <>
-            <div className='w-[350px] flex sticky left-0 top-0 h-full bg-[#2F3136]'>
+            <div className='w-[350px] tdr1:hidden mobilebig:w-[250px] flex left-0 top-0 h-full bg-[#2F3136]'>
 
                 {/* pequeno */}
 
-                <div className='w-[23%] items-center relative flex flex-col h-full bg-[#202225]'>
+                <div className='w-[23%] mobilebig:w-[70px] items-center relative flex flex-col h-full bg-[#202225]'>
 
                     {/* top icon discord */}
                     <div className='w-[70%]'>
@@ -174,7 +175,7 @@ function SideBar() {
                 <div className='w-[77%] items-center h-full flex flex-col justify-between'>
 
                     {SingleServData.name ? <>
-                        <div className='w-[100%] justify-center flex h-[5%] border-b border-b-[#18191C]'>
+                        <div className='w-[100%] justify-center flex h-[5%]'>
                             <div className='w-[85%] justify-between items-center flex'>
                                 <span className='block text-white font-bold'>{SingleServData.name}</span>
                                 <MdOutlineKeyboardArrowDown className='text-white text-[20px]' />
@@ -217,8 +218,8 @@ function SideBar() {
                         <div className='w-[100%] flex justify-center items-center h-[10%] '>
                             <div className='w-full h-full flex justify-center items-end'>
                                 <div onClick={Logout} className='w-full h-[60px] items-center flex cursor-pointer justify-center hover:bg-[#585c64] transition-all bg-[#292B2F] '>
-                                    <div className='w-[93%] flex items-center  justify-between h-[80%] '>
-                                        <div className='flex-1'>
+                                    <div className='w-[93%] flex items-center justify-between h-[80%]'>
+                                        <div className='w-[20%] smalltablets:mr-3'>
                                             <div className='h-full flex items-center relative'>
                                                 {userData2?.photoUrl ? (
                                                     <>
@@ -237,15 +238,15 @@ function SideBar() {
                                             </div>
 
                                         </div>
-                                        <div className='flex-[2] justify-center flex flex-col'>
+                                        <div className='w-[40%] mobilebig:w-[80%] justify-center flex flex-col'>
                                             <span className='text-white text-[14px] font-bold ml-[-3px]'>{generalData?.username}</span>
                                             <span className='text-[#96989D] text-[13px] mt-[-5px] ml-[-3px]'>#{generalData?.uid}</span>
                                         </div>
 
 
-                                        <div className='flex-[2] items-center flex justify-between'>
-                                            <MdKeyboardVoice className='text-[#96989D] text-[22px]' />
-                                            <BsHeadphones className='text-[#96989D] text-[22px]' />
+                                        <div className='w-[40%] items-center smalltablets:justify-end flex justify-between'>
+                                            <MdKeyboardVoice className='text-[#96989D] smalltablets:hidden text-[22px]' />
+                                            <BsHeadphones className='text-[#96989D] smalltablets:hidden text-[22px]' />
                                             <IoMdSettings className='text-[#96989D] text-[22px]' />
                                         </div>
 
@@ -331,10 +332,10 @@ function SideBar() {
 
                         </div>
                         <div className='w-full h-[60px] bg-[#292B2F]'>
-                            <div className='w-[95%] h-full flex justify-center items-end'>
+                            <div className='w-[100%] h-full flex justify-center items-end'>
                                 <div onClick={Logout} className='w-full h-[100%] items-center flex cursor-pointer justify-center hover:bg-[#585c64] transition-all bg-[#292B2F] '>
                                     <div className='w-[93%] flex items-center  justify-between h-[80%] '>
-                                        <div className='flex-1'>
+                                        <div className='w-[20%] mobilebig:mr-3 flex mr-1 justify-center'>
                                             <div className='h-full flex items-center relative'>
                                                 {userData2?.photoUrl ? (
                                                     <>
@@ -353,15 +354,15 @@ function SideBar() {
                                             </div>
 
                                         </div>
-                                        <div className='flex-[2] justify-center flex flex-col'>
+                                        <div className='w-[40%] mobilebig:w-[80%] justify-center flex flex-col'>
                                             <span className='text-white text-[14px] font-bold ml-[-3px]'>{generalData?.username}</span>
                                             <span className='text-[#96989D] text-[13px] mt-[-5px] ml-[-3px]'>#{generalData?.uid}</span>
                                         </div>
 
 
-                                        <div className='flex-[2] items-center flex justify-between'>
-                                            <MdKeyboardVoice className='text-[#96989D] text-[22px]' />
-                                            <BsHeadphones className='text-[#96989D] text-[22px]' />
+                                        <div className='w-[40%] items-center mobilebig:justify-end flex justify-between'>
+                                            <MdKeyboardVoice className='text-[#96989D] mobilebig:hidden text-[22px]' />
+                                            <BsHeadphones className='text-[#96989D] mobilebig:hidden text-[22px]' />
                                             <IoMdSettings className='text-[#96989D] text-[22px]' />
                                         </div>
 

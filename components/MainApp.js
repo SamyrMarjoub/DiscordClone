@@ -102,6 +102,7 @@ function MainApp() {
         } else {
           // User is signed out
           // ...
+          return
         }
       });
 
@@ -132,7 +133,6 @@ function MainApp() {
     async function deleteMsg(e) {
 
       await deleteDoc(doc(db, "mensagens", e));
-      setMsgs([])
       getMsgs()
     }
 
@@ -146,7 +146,7 @@ function MainApp() {
 
     return (
       <>
-        <div className='w-full h-[53px] flex justify-center border-b border-b-[#18191C]'>
+        <div className='tdr1:w-full w-full h-[53px] flex justify-center border-b border-b-[#18191C]'>
           <div className='w-[98%] flex items-center h-full'>
 
             <div className='flex w-[50%] items-center'>
@@ -156,7 +156,7 @@ function MainApp() {
             <div className='w-[50%] flex justify-end'>
               <div className='w-[400px] items-center flex justify-end h-full'>
                 <div className='h-full flex justify-center items-center w-[40px]'>
-                  <svg x="0" y="0" className="icon-2xnN2Y"
+                  <svg x="0" y="0" className="icon-2xnN2Y tablets2:hidden"
                     aria-hidden="true" role="img" width="24"
                     height="24" viewBox="0 0 24 24" fill="#B9BBBE"><path fill="#B9BBBE"
                       d="M5.43309 21C5.35842 21 5.30189 20.9325 5.31494 20.859L5.99991
@@ -181,9 +181,9 @@ function MainApp() {
                                13.3898 23.0901 12.96 22.5599 12.96H13.4399Z"></path></svg>
                 </div>
                 <div className='h-full flex justify-center items-center w-[40px]'>
-                  <IoIosNotifications className='text-[25px] text-[#B9BBBE]' />
+                  <IoIosNotifications className='text-[25px] text-[#B9BBBE] tablets2:hidden' />
                 </div>
-                <div className='h-full flex justify-center items-center w-[40px]'>
+                <div className='h-full flex justify-center items-center w-[40px] tablets2:hidden'>
                   <svg x="0" y="0" className="icon-2xnN2Y"
                     aria-hidden="true" role="img"
                     width="24" height="24"
@@ -199,7 +199,7 @@ function MainApp() {
                       13.414L22 12Z"></path></svg>
                 </div>
                 <div className='h-full flex justify-center items-center w-[40px]'>
-                  <MdPeopleAlt className='text-[#B9BBBE] text-[25px]' />
+                  <MdPeopleAlt className='text-[#B9BBBE] text-[25px] tablets2:hidden' />
                 </div>
                 <div className='w-[150px] ml-2 mr-3 h-full flex items-center'>
                   <div className='w-full h-[50%] relative bg-[#202225]'>
@@ -207,7 +207,7 @@ function MainApp() {
                     <BiSearch className='text-[#B9BBBE] absolute right-1 top-[5px]' />
                   </div>
                 </div>
-                <div className='h-full text-[30px] justify-center flex items-center w-[40px]'>
+                <div className='h-full text-[30px] justify-center tablets2:hidden flex items-center w-[40px]'>
                   <svg x="0" y="0" className="icon-2xnN2Y"
                     aria-hidden="true" role="img"
                     width="24" height="24" viewBox="0 0 24 24"
@@ -217,7 +217,7 @@ function MainApp() {
                 19 3ZM19 15H15C15 16.66 13.65 18 12 18C10.35 
                 18 9 16.66 9 15H4.99V5H19V15Z" fill="#B9BBBE"></path></svg>
                 </div>
-                <div className='h-full text-[30px] justify-center flex items-center w-[40px]'>
+                <div className='h-full text-[30px] tablets2:hidden justify-center flex items-center w-[40px]'>
                   <svg x="0" y="0" className="icon-2xnN2Y"
                     aria-hidden="true" role="img"
                     width="24" height="24" viewBox="0 0 24 24"><path fill="#B9BBBE"
@@ -255,6 +255,7 @@ function MainApp() {
                     <div className='w-full'>
                       {msgs.map((e, index) => (
                         <div className='flex w-full mt-5 relative flex-col' key={index}>
+                          
                           <div className='flex'>
                             <div style={{ backgroundColor: e?.bgIconColor }} className='w-[50px] h-[50px] flex justify-center items-center rounded-full'>
                               <FaDiscord className='text-[30px]' />
@@ -262,6 +263,7 @@ function MainApp() {
                             <span className='font-bold ml-3 mr-2'>{e.username}</span>
                             <span className='text-[13px] mt-[2.8px] text-[#B9BBBE]'>{daysjs().from(daysjs(e.serverTime?.toDate()))}</span>
                           </div>
+
                           <div className='bg-red-500 flex w-full'>
                             <div className='w-[300px]'>
                               <p className='ml-[60px] absolute mt-[-20px]'>
@@ -269,6 +271,7 @@ function MainApp() {
                               </p>
                             </div>
                           </div>
+                          
                           <div id={e.id} onClick={() => deleteMsg(e.id)} className='absolute right-0 cursor-pointer'> <BsThreeDots /> </div>
 
                         </div>
@@ -306,15 +309,15 @@ function MainApp() {
 
               </div>
               <div className='w-[40px] h-full flex justify-center items-center text-[25px]'>
-                <AiFillGift className='text-[#B9BBBE]' />
+                <AiFillGift className='text-[#B9BBBE] tablets2:hidden'  />
               </div>
               <div className='w-[40px] h-full flex justify-center items-center text-[25px]'>
-                <div className='w-[30px] flex justify-center items-center h-[25px] rounded-sm bg-[#B9BBBE]'>
-                  <AiOutlineGif className='text-[#40444B]' />
+                <div className='w-[30px] flex justify-center items-center h-[25px] tablets2:hidden rounded-sm bg-[#B9BBBE]'>
+                  <AiOutlineGif className='text-[#40444B] ' />
 
                 </div>
               </div>
-              <div className='w-[40px] h-full flex justify-center items-center text-[25px]'>
+              <div className='w-[40px] h-full flex justify-center items-center tablets2:hidden text-[25px]'>
                 <BsFileEarmarkEaselFill className='text-[#B9BBBE]' />
               </div>
               <div className='w-[40px] h-full flex justify-center items-center text-[25px]'>
@@ -328,15 +331,16 @@ function MainApp() {
       </>
     )
   }
+
   function NoData() {
     return (
       <>
         <div className='w-full h-[100%] flex justify-center items-center bg-[#202225]'>
           <div className='flex flex-col items-center justify-center'>
-            <Image width={300} src={noChat} alt='' />
-            <span className='text-[#B9BBBE] text-[18px] mt-10 font-bold'>SEM CANAIS DE TEXTO</span>
-            <span className='text-[#A3A6AA] text-[17px]
-             mt-2 max-w-[450px] leading-6'>Você se vê em um lugar estranho.
+            <Image className='w-[300px] tablets2:w-[250px]'  src={noChat} alt='' />
+            <span className='text-[#B9BBBE] text-[18px] tablets2:mt-5 mt-10 font-bold'>SEM CANAIS DE TEXTO</span>
+            <span className='text-[#A3A6AA] text-[17px] text-center
+             mt-2 max-w-[400px] tablets2:text-[15px] tablets2:max-w-[300px] leading-6'>Você se vê em um lugar estranho.
               Você não tem acesso a nenhum canal de texto,
               ou não há nenhum neste servidor</span>
           </div>
