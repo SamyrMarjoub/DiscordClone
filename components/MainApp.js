@@ -6,6 +6,7 @@ import { MdPeopleAlt } from 'react-icons/md'
 import { BiSearch } from 'react-icons/bi'
 import { AiFillGift, AiOutlineGif } from 'react-icons/ai'
 import { BsFileEarmarkEaselFill, BsFillEmojiDizzyFill, BsThreeDots } from 'react-icons/bs'
+import { GiHamburgerMenu } from 'react-icons/gi'
 import { useGlobalState } from '../pasta'
 import noChat from '../public/noChat.svg'
 import randomId from 'random-id'
@@ -22,6 +23,9 @@ const pattern = 'A04c'
 
 function MainApp() {
   const defaultCurrency = useGlobalState("defaultCurrency")
+  const [modalOpen, setModalOpen] = useGlobalState('modalOpen')
+  const [mobileselected, setMobileSelected] = useGlobalState('mobileselected')
+
   daysjs.extend(relativeTime)
   daysjs.locale(locale)
 
@@ -146,6 +150,12 @@ function MainApp() {
 
     return (
       <>
+        <div className='w-full hidden absolute top-0 left-0 bg-red-300 tdr1:flex justify-center h-[40px]'>
+          <div className='w-[90%] h-full'>
+            <GiHamburgerMenu className='text-[30px] text-white' />
+            {/* sadasdas */}
+          </div>
+        </div>
         <div className='tdr1:w-full w-full h-[53px] flex justify-center border-b border-b-[#18191C]'>
           <div className='w-[98%] flex items-center h-full'>
 
@@ -255,7 +265,7 @@ function MainApp() {
                     <div className='w-full'>
                       {msgs.map((e, index) => (
                         <div className='flex w-full mt-5 relative flex-col' key={index}>
-                          
+
                           <div className='flex'>
                             <div style={{ backgroundColor: e?.bgIconColor }} className='w-[50px] h-[50px] flex justify-center items-center rounded-full'>
                               <FaDiscord className='text-[30px]' />
@@ -271,7 +281,7 @@ function MainApp() {
                               </p>
                             </div>
                           </div>
-                          
+
                           <div id={e.id} onClick={() => deleteMsg(e.id)} className='absolute right-0 cursor-pointer'> <BsThreeDots /> </div>
 
                         </div>
@@ -309,7 +319,7 @@ function MainApp() {
 
               </div>
               <div className='w-[40px] h-full flex justify-center items-center text-[25px]'>
-                <AiFillGift className='text-[#B9BBBE] tablets2:hidden'  />
+                <AiFillGift className='text-[#B9BBBE] tablets2:hidden' />
               </div>
               <div className='w-[40px] h-full flex justify-center items-center text-[25px]'>
                 <div className='w-[30px] flex justify-center items-center h-[25px] tablets2:hidden rounded-sm bg-[#B9BBBE]'>
@@ -337,7 +347,7 @@ function MainApp() {
       <>
         <div className='w-full h-[100%] flex justify-center items-center bg-[#202225]'>
           <div className='flex flex-col items-center justify-center'>
-            <Image className='w-[300px] tablets2:w-[250px]'  src={noChat} alt='' />
+            <Image className='w-[300px] tablets2:w-[250px]' src={noChat} alt='' />
             <span className='text-[#B9BBBE] text-[18px] tablets2:mt-5 mt-10 font-bold'>SEM CANAIS DE TEXTO</span>
             <span className='text-[#A3A6AA] text-[17px] text-center
              mt-2 max-w-[400px] tablets2:text-[15px] tablets2:max-w-[300px] leading-6'>Você se vê em um lugar estranho.

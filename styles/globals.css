@@ -130,6 +130,21 @@ opacity: 0;
   animation: menuClose 0.2s ease-in-out !important;
   transform: scale(0);
 }
+
+@keyframes slideInFromLeft {
+  0% {
+    left: -300px;
+  }
+  100% {
+    left: 0;
+  }
+}
+.animacaoModalMobile{
+  animation-name: slideInFromLeft;
+  animation-duration: 1s;
+  left: 0;
+}
+
 @keyframes menu {
   from{transform: scale(0);}
   to{transform: scale(1);}
@@ -162,5 +177,6 @@ opacity: 0;
       'ul3 ul3 ul4 ul4';
     column-gap: 40px;
     row-gap: 10px;
+    /* background-color: rgba(0, 0, 0, 0.649); */
   }
 }
